@@ -2,7 +2,7 @@
 
 **赋予 OpenClaw 云端生命。一次部署，全平台对话——Web、Element无缝流转; 技能自定义热插拔，无缝对接 Opencode 等专业工具；基础设施一键就绪，配置热加载即时生效，你只管创造。**
 
-**Give your OpenClaw a cloud-native home. One deployment, infinite conversations—Web, Element, and beyond. Hot-swappable skills, native Opencode integration; one-click infrastructure, live config updates. Focus on creation, we handle the rest.**
+Give your OpenClaw a cloud-native home. One deployment, infinite conversations—Web, Element, and beyond. Hot-swappable skills, native Opencode integration; one-click infrastructure, live config updates. Focus on creation, we handle the rest.
 ---
 ![OpenClaw Cloud Dashboard](docs/images/dashboard.webp)
 

@@ -1,6 +1,6 @@
 # OpenClaw Cloud 用户手册
 
-欢迎来到 OpenClaw Cloud！本手册将带你一步步了解如何使用这个强大的 AI Agent 调度平台。
+欢迎来到 OpenClaw Cloud！本手册将带你一步步了解如何使用这个强大的 AI Agent 调度平台。让 AI Agent 从"终端命令行工具"升级为"云端企业级应用"。
 
 ## 目录
 

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  openclaw-instance-{{INSTANCE_ID}}:
+    image: openclaw:local
+    container_name: openclaw-{{INSTANCE_ID}}
+    restart: unless-stopped
+    
+    ports:
+      - "{{PORT}}:18789"
+    
+    volumes:
+      # Config directory
+      - {{CONFIG_PATH}}:/home/node/.openclaw:rw
+      # Skills directory
+      - {{SKILLS_PATH}}:/home/node/.openclaw/workspace/skills:rw
+      # Workspace directory
+      - {{WORKSPACE_PATH}}:/home/node/.openclaw/workspace:rw
+    
+    environment:
+      - NODE_ENV=production
+      - OPENCLAW_GATEWAY_TOKEN={{GATEWAY_TOKEN}}
+      - OPENCLAW_CONFIG_DIR=/home/node/.openclaw
+      - OPENCLAW_WORKSPACE_DIR=/home/node/.openclaw/workspace
+    
+    healthcheck:
+      test: ["CMD", "node", "dist/index.js", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    networks:
+      - openclaw-network-{{INSTANCE_ID}}
+
+networks:
+  openclaw-network-{{INSTANCE_ID}}:
+    driver: bridge

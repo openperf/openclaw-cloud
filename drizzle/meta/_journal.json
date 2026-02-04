@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1769927921547,
+      "tag": "0000_green_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1769928078393,
+      "tag": "0001_skinny_mojo",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1770018417017,
+      "tag": "0002_many_proemial_gods",
+      "breakpoints": true
+    }
+  ]
+}

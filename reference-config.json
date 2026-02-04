@@ -1,0 +1,93 @@
+{
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "agents": {
+    "defaults": {
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "workspace": "/root/clawd",
+      "models": {
+        "openrouter/auto": {
+          "alias": "OpenRouter"
+        },
+        "openrouter/anthropic/claude-sonnet-4": {}
+      },
+      "model": {
+        "primary": "openrouter/anthropic/claude-sonnet-4"
+      }
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "ce15e887a12a7960bb3424973efac6049f4477a70c238fbe"
+    },
+    "port": 18789,
+    "bind": "loopback",
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "auth": {
+    "profiles": {
+      "openrouter:default": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      }
+    }
+  },
+  "plugins": {
+    "load": {
+      "paths": [
+        "/root/moltbot/extensions/matrix"
+      ]
+    },
+    "entries": {
+      "matrix": {
+        "enabled": true
+      }
+    }
+  },
+  "channels": {
+    "matrix": {
+      "enabled": true,
+      "homeserver": "http://localhost:8008",
+      "accessToken": "syt_Y2xhd2Rib3Q_mFqLdhOsSGlRRGLevIEl_2e4tPb",
+      "deviceName": "Clawdbot Gateway V4",
+      "encryption": true
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "pnpm"
+    }
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-01-28T08:18:01.123Z",
+    "lastRunVersion": "2026.1.24-1",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.1.24-1",
+    "lastTouchedAt": "2026-01-28T08:18:01.139Z"
+  }
+}

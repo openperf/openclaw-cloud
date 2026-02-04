@@ -1,0 +1,629 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Stripe品牌色 */
+  --color-stripe-purple: #635BFF;
+  --color-stripe-blue: #0A2540;
+  --color-stripe-cyan: #00D4FF;
+  --color-stripe-pink: #FF80B5;
+  --color-stripe-orange: #FF9E2C;
+}
+
+:root {
+  /* Stripe风格主色调 - 深蓝紫 */
+  --primary: #635BFF;
+  --primary-foreground: #FFFFFF;
+  --sidebar-primary: #635BFF;
+  --sidebar-primary-foreground: #FFFFFF;
+  
+  /* Chart colors - Stripe渐变色系 */
+  --chart-1: #635BFF;
+  --chart-2: #00D4FF;
+  --chart-3: #FF80B5;
+  --chart-4: #FF9E2C;
+  --chart-5: #80E9FF;
+  
+  --radius: 0.625rem;
+  
+  /* 浅色模式 - Stripe风格白色背景 */
+  --background: #FFFFFF;
+  --foreground: #0A2540;
+  --card: #FFFFFF;
+  --card-foreground: #0A2540;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A2540;
+  --secondary: #F6F9FC;
+  --secondary-foreground: #425466;
+  --muted: #F6F9FC;
+  --muted-foreground: #425466;
+  --accent: #F6F9FC;
+  --accent-foreground: #635BFF;
+  --destructive: #DF1B41;
+  --destructive-foreground: #FFFFFF;
+  --border: #E6E6E6;
+  --input: #E6E6E6;
+  --ring: #635BFF;
+  
+  /* Sidebar - Stripe风格 */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0A2540;
+  --sidebar-accent: #F6F9FC;
+  --sidebar-accent-foreground: #635BFF;
+  --sidebar-border: #E6E6E6;
+  --sidebar-ring: #635BFF;
+}
+
+.dark {
+  /* 深色模式 - Stripe深色风格 */
+  --primary: #7A73FF;
+  --primary-foreground: #FFFFFF;
+  --sidebar-primary: #7A73FF;
+  --sidebar-primary-foreground: #FFFFFF;
+  
+  --background: #0A2540;
+  --foreground: #FFFFFF;
+  --card: #0D2E4D;
+  --card-foreground: #FFFFFF;
+  --popover: #0D2E4D;
+  --popover-foreground: #FFFFFF;
+  --secondary: #0D2E4D;
+  --secondary-foreground: #ADBDCC;
+  --muted: #0D2E4D;
+  --muted-foreground: #8898A9;
+  --accent: #0D2E4D;
+  --accent-foreground: #7A73FF;
+  --destructive: #FF5C7C;
+  --destructive-foreground: #FFFFFF;
+  --border: #1A3A5C;
+  --input: #1A3A5C;
+  --ring: #7A73FF;
+  
+  /* Chart colors - 深色模式 */
+  --chart-1: #7A73FF;
+  --chart-2: #00D4FF;
+  --chart-3: #FF80B5;
+  --chart-4: #FF9E2C;
+  --chart-5: #80E9FF;
+  
+  /* Sidebar - 深色模式 */
+  --sidebar: #0A2540;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-accent: #0D2E4D;
+  --sidebar-accent-foreground: #7A73FF;
+  --sidebar-border: #1A3A5C;
+  --sidebar-ring: #7A73FF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* ========================================
+     Stripe风格渐变背景
+     ======================================== */
+  
+  /* 彩虹渐变背景 - 用于Hero区域装饰 */
+  .stripe-gradient-bg {
+    background: linear-gradient(
+      135deg,
+      #80E9FF 0%,
+      #00D4FF 15%,
+      #635BFF 35%,
+      #FF80B5 65%,
+      #FF9E2C 85%,
+      #FFD580 100%
+    );
+  }
+  
+  /* 渐变文字效果 */
+  .stripe-gradient-text {
+    background: linear-gradient(90deg, #635BFF 0%, #00D4FF 50%, #FF80B5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .stripe-gradient-text-alt {
+    background: linear-gradient(90deg, #0A2540 0%, #635BFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ========================================
+     Stripe风格按钮
+     ======================================== */
+  
+  /* 主按钮 - Stripe紫色 */
+  .stripe-btn {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-full font-semibold text-white transition-all duration-200;
+    background: #635BFF;
+    box-shadow: 0 4px 14px -2px rgba(99, 91, 255, 0.4);
+  }
+  
+  .stripe-btn:hover {
+    background: #5851EA;
+    box-shadow: 0 6px 20px -2px rgba(99, 91, 255, 0.5);
+    transform: translateY(-1px);
+  }
+  
+  .stripe-btn:active {
+    transform: translateY(0);
+  }
+  
+  /* 次按钮 - 白色背景 */
+  .stripe-btn-outline {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-full font-semibold transition-all duration-200;
+    background: #FFFFFF;
+    color: #0A2540;
+    border: 1px solid #E6E6E6;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);
+  }
+  
+  .stripe-btn-outline:hover {
+    border-color: #635BFF;
+    color: #635BFF;
+    box-shadow: 0 4px 12px -2px rgba(99, 91, 255, 0.15);
+  }
+  
+  .dark .stripe-btn-outline {
+    background: #0D2E4D;
+    color: #FFFFFF;
+    border-color: #1A3A5C;
+  }
+  
+  .dark .stripe-btn-outline:hover {
+    border-color: #7A73FF;
+    color: #7A73FF;
+  }
+
+  /* ========================================
+     Stripe风格卡片
+     ======================================== */
+  
+  .stripe-card {
+    @apply bg-card rounded-xl;
+    box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s ease;
+  }
+  
+  .stripe-card:hover {
+    box-shadow: 0 8px 24px -4px rgba(99, 91, 255, 0.12), 0 0 0 1px rgba(99, 91, 255, 0.08);
+    transform: translateY(-2px);
+  }
+  
+  .dark .stripe-card {
+    box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  }
+  
+  .dark .stripe-card:hover {
+    box-shadow: 0 8px 24px -4px rgba(122, 115, 255, 0.15), 0 0 0 1px rgba(122, 115, 255, 0.1);
+  }
+  
+  /* 特色卡片 - 带渐变边框 */
+  .stripe-card-featured {
+    @apply bg-card rounded-xl p-[1px];
+    background: linear-gradient(135deg, #635BFF, #00D4FF, #FF80B5);
+    transition: all 0.25s ease;
+  }
+  
+  .stripe-card-featured > div {
+    @apply bg-card rounded-xl;
+  }
+  
+  .stripe-card-featured:hover {
+    box-shadow: 0 8px 24px -4px rgba(99, 91, 255, 0.25);
+    transform: translateY(-2px);
+  }
+
+  /* ========================================
+     Stripe风格导航栏
+     ======================================== */
+  
+  .stripe-navbar {
+    @apply bg-white/95 backdrop-blur-md border-b border-gray-100;
+  }
+  
+  .dark .stripe-navbar {
+    @apply bg-[#0A2540]/95 border-[#1A3A5C];
+  }
+  
+  /* ========================================
+     Stripe风格侧边栏
+     ======================================== */
+  
+  .stripe-sidebar {
+    @apply bg-white border-r border-gray-100;
+  }
+  
+  .dark .stripe-sidebar {
+    @apply bg-[#0A2540] border-[#1A3A5C];
+  }
+  
+  .stripe-sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 text-muted-foreground rounded-lg mx-2 transition-all duration-200;
+  }
+  
+  .stripe-sidebar-item:hover {
+    @apply bg-accent text-foreground;
+  }
+  
+  .stripe-sidebar-item.active {
+    @apply bg-accent text-primary font-medium;
+  }
+
+  /* ========================================
+     Stripe风格输入框
+     ======================================== */
+  
+  .stripe-input {
+    @apply w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-foreground transition-all duration-200;
+  }
+  
+  .stripe-input:focus {
+    @apply outline-none border-primary ring-2 ring-primary/20;
+  }
+  
+  .dark .stripe-input {
+    @apply bg-[#0D2E4D] border-[#1A3A5C];
+  }
+
+  /* ========================================
+     Stripe风格代码块
+     ======================================== */
+  
+  .stripe-code-block {
+    @apply rounded-xl overflow-hidden;
+    background: #0A2540;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .stripe-code-header {
+    @apply flex items-center gap-3 px-4 py-3 border-b border-[#1A3A5C];
+  }
+  
+  .stripe-code-dot {
+    @apply w-3 h-3 rounded-full;
+  }
+  
+  .stripe-code-dot-red { background: #FF5F57; }
+  .stripe-code-dot-yellow { background: #FEBC2E; }
+  .stripe-code-dot-green { background: #28C840; }
+
+  /* ========================================
+     Stripe风格标签和徽章
+     ======================================== */
+  
+  .stripe-tag {
+    @apply inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full;
+    background: rgba(99, 91, 255, 0.1);
+    color: #635BFF;
+  }
+  
+  .dark .stripe-tag {
+    background: rgba(122, 115, 255, 0.15);
+    color: #7A73FF;
+  }
+  
+  .stripe-badge {
+    @apply inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-xs font-semibold rounded-full text-white;
+    background: #635BFF;
+  }
+
+  /* ========================================
+     Stripe风格统计数字
+     ======================================== */
+  
+  .stripe-stat {
+    @apply text-center;
+  }
+  
+  .stripe-stat-number {
+    @apply text-4xl font-bold;
+    background: linear-gradient(135deg, #635BFF 0%, #00D4FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .stripe-stat-label {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+
+  /* ========================================
+     Stripe风格特性卡片
+     ======================================== */
+  
+  .stripe-feature-card {
+    @apply p-4 sm:p-6 rounded-xl bg-card transition-all duration-300;
+    border: 1px solid transparent;
+  }
+  
+  .stripe-feature-card:hover {
+    border-color: rgba(99, 91, 255, 0.2);
+    box-shadow: 0 8px 24px -8px rgba(99, 91, 255, 0.15);
+  }
+  
+  .stripe-feature-icon {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center mb-4;
+    background: linear-gradient(135deg, rgba(99, 91, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+  }
+  
+  .stripe-feature-icon svg {
+    @apply w-6 h-6 text-primary;
+  }
+
+  /* ========================================
+     悬浮效果
+     ======================================== */
+  
+  .hover-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .hover-lift:hover {
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ========================================
+     状态指示器
+     ======================================== */
+  
+  .status-running {
+    @apply bg-emerald-500;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  }
+  
+  .status-stopped {
+    @apply bg-gray-400;
+  }
+  
+  .status-error {
+    @apply bg-red-500;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+  }
+
+  /* ========================================
+     页面标题
+     ======================================== */
+  
+  .page-title {
+    @apply text-2xl font-bold tracking-tight;
+  }
+  
+  .page-subtitle {
+    @apply text-muted-foreground text-sm mt-1;
+  }
+}
+
+/* ========================================
+   动画效果
+   ======================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 91, 255, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(99, 91, 255, 0); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.4s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* 延迟动画 */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ========================================
+   滚动条样式
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4B5563;
+}
+
+/* ========================================
+   选中文字颜色
+   ======================================== */
+
+::selection {
+  background: rgba(99, 91, 255, 0.15);
+  color: #635BFF;
+}
+
+.dark ::selection {
+  background: rgba(122, 115, 255, 0.2);
+  color: #7A73FF;
+}
+
+/* ========================================
+   代码块字体
+   ======================================== */
+
+pre, code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+}
+
+/* ========================================
+   表格样式
+   ======================================== */
+
+table {
+  @apply w-full border-collapse;
+}
+
+th {
+  @apply text-left font-semibold text-muted-foreground uppercase text-xs tracking-wider py-3 px-4 border-b border-border;
+}
+
+td {
+  @apply py-3 px-4 border-b border-border;
+}
+
+tr:hover td {
+  @apply bg-accent/50;
+}

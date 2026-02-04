@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: openclaw-cloud-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-openclaw_root_pass}
+      MYSQL_DATABASE: ${DB_NAME:-openclaw_cloud}
+      MYSQL_USER: ${DB_USER:-openclaw}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-openclaw_pass}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    networks:
+      - openclaw-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # OpenClaw Cloud Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openclaw-cloud-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: mysql://${DB_USER:-openclaw}:${DB_PASSWORD:-openclaw_pass}@db:3306/${DB_NAME:-openclaw_cloud}
+      JWT_SECRET: ${JWT_SECRET:-change_this_secret_in_production}
+      PORT: ${APP_PORT:-3000}
+      # Manus OAuth (optional, for authentication)
+      OAUTH_SERVER_URL: ${OAUTH_SERVER_URL:-}
+      VITE_OAUTH_PORTAL_URL: ${VITE_OAUTH_PORTAL_URL:-}
+      VITE_APP_ID: ${VITE_APP_ID:-}
+      OWNER_OPEN_ID: ${OWNER_OPEN_ID:-}
+      OWNER_NAME: ${OWNER_NAME:-}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - openclaw-network
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  openclaw-network:
+    driver: bridge

@@ -5,7 +5,7 @@
 **The command center for your AI Agent fleet.** Orchestrate intelligent agents with enterprise-grade infrastructure, seamless skill composition, and unified multi-channel presence.
 
 ---
-
+![首页](images/home-hero.webp)
 ![OpenClaw Cloud Dashboard](docs/images/dashboard.webp)
 
 ## ✨ 为什么选择 OpenClaw Cloud？

@@ -82,6 +82,18 @@ OpenClaw Cloud 不仅仅是一个管理面板，它是一个为 AI Agent 生态�
 
 请在开始前阅读我们的 **[贡献指南](./CONTRIBUTING.md)**。
 
+## 📱 联系与合作
+
+<div align="center">
+
+**欢迎交流与合作** 💬
+
+微信号：`huhurun2022` | [GitHub Issues](https://github.com/openperf/openclaw-cloud/issues ) | [讨论区](https://github.com/openperf/openclaw-cloud/discussions )
+
+</div>
+
+---
+
 ## 📄 开源许可
 
 本项目基于 [MIT License](./LICENSE) 开源。

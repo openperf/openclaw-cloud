@@ -1,6 +1,6 @@
 # ☁️ OpenClaw Cloud
 
-**让 AI 智能体真正"活"起来。一次部署，全平台对话——Element、Telegram、Discord、Slack 无缝切换。技能即插即用，基础设施一键拉起，让你专注于创造，而非配置。**
+**赋予 OpenClaw 云端生命。一次部署，全平台对话——Web、Element无缝流转; 技能自定义热插拔，无缝对接 Opencode 等专业工具；基础设施一键就绪，配置热加载即时生效，你只管创造。**
 
 **The command center for your AI Agent fleet.** Orchestrate intelligent agents with enterprise-grade infrastructure, seamless skill composition, and unified multi-channel presence.
 

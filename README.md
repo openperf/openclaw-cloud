@@ -1,6 +1,6 @@
 # ☁️ OpenClaw Cloud
 
-**赋予 OpenClaw 云端生命。一次部署，全平台对话——Web、Element无缝流转; 技能自定义热插拔，无缝对接 Opencode 等专业工具；基础设施一键就绪，配置热加载即时生效，你只管创造。**
+**赋予 OpenClaw 云端生命。一次部署，全平台对话——Web、Slack无缝流转; 技能自定义热插拔，无缝对接 Opencode 等专业工具；基础设施一键就绪，配置热加载即时生效，你只管创造。**
 
 **Give your OpenClaw a cloud-native home.** One deployment, infinite conversations—Web, Element, and beyond. Hot-swappable skills, native Opencode integration; one-click infrastructure, live config updates. Focus on creation, we handle the rest.
 
@@ -23,8 +23,6 @@ OpenClaw Cloud 不仅仅是一个管理面板，它是一个为 AI Agent 生态�
 - **前端**: React 19 + TypeScript + Tailwind CSS 4
 - **后端**: Node.js + Express + tRPC 11
 - **数据库**: MySQL/TiDB with Drizzle ORM
-- **认证**: Manus OAuth (可轻松替换)
-- **核心**: Docker, pnpm
 
 ## 🚀 快速开始
 
@@ -82,6 +80,10 @@ OpenClaw Cloud 不仅仅是一个管理面板，它是一个为 AI Agent 生态�
 
 请在开始前阅读我们的 **[贡献指南](./CONTRIBUTING.md)**。
 
+## 📄 开源许可
+
+本项目基于 [MIT License](./LICENSE) 开源。
+
 ## 📱 联系与合作
 
 <div align="center">
@@ -93,7 +95,3 @@ OpenClaw Cloud 不仅仅是一个管理面板，它是一个为 AI Agent 生态�
 </div>
 
 ---
-
-## 📄 开源许可
-
-本项目基于 [MIT License](./LICENSE) 开源。

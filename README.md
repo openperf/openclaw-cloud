@@ -37,7 +37,7 @@ OpenClaw Cloud 不仅仅是一个管理面板，它是一个为 AI Agent 生态�
 
 1. **克隆仓库**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/openclaw-cloud.git
+   git clone https://github.com/openperf/openclaw-cloud.git
    cd openclaw-cloud
    ```
 

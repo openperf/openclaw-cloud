@@ -94,28 +94,52 @@ function Install-PythonReqs($appDir) {
 }
 
 try {
-  Write-Log "Iniciando orquestrador pós-instalação"
-  Ensure-Node
-  Ensure-Python
+  Write-Log "Iniciando orquestrador pós-instalação (modo seguro)"
 
   $appDir = $scriptDir
-
-  # Log file for post-install actions
   $logFile = Join-Path $appDir 'install-postlog.txt'
   Write-Log "Post-install log: $logFile"
-
   function Log-Write($m) { "$((Get-Date).ToString('s')) - $m" | Out-File -FilePath $logFile -Append -Encoding utf8 }
 
-  Log-Write "Starting npm/playwright install in $appDir"
-  Run-NpmInstallAndPlaywright $appDir 2>&1 | ForEach-Object { Log-Write $_ }
-  Log-Write "Finished npm/playwright install"
+  # Check Node/npm availability — do not attempt to install Node automatically to avoid elevation issues
+  $node = Get-Command node -ErrorAction SilentlyContinue
+  $npmAvailable = $false
+  if ($node) {
+    Log-Write "Node detected: $($node.Path)"
+    # try to resolve npm
+    $npmCmd = Join-Path $env:ProgramFiles 'nodejs\npm.cmd'
+    if (-not (Test-Path $npmCmd) -and $env:ProgramFiles(x86)) { $npmCmd = Join-Path $env:ProgramFiles(x86) 'nodejs\npm.cmd' }
+    if (Test-Path $npmCmd) { $npmAvailable = $true; Log-Write "Found npm at $npmCmd" } else {
+      # fallback to PATH
+      $npm = Get-Command npm -ErrorAction SilentlyContinue
+      if ($npm) { $npmAvailable = $true; Log-Write "Found npm in PATH: $($npm.Path)" }
+    }
+  } else {
+    Log-Write "Node not found — skipping automatic installation to avoid requiring admin rights."
+  }
 
-  Log-Write "Installing Python requirements (if any)"
-  Install-PythonReqs $appDir 2>&1 | ForEach-Object { Log-Write $_ }
+  if ($npmAvailable) {
+    Log-Write "Attempting npm install and Playwright browsers (this may take a while)"
+    try {
+      Run-NpmInstallAndPlaywright $appDir 2>&1 | ForEach-Object { Log-Write $_ }
+    } catch {
+      Log-Write "npm/playwright install failed: $_"
+    }
+  } else {
+    Log-Write "Skipping npm install because npm is not available. Instructing user to run npm install manually."
+  }
 
-  Write-Log "Instalação concluída. Edite .env em $appDir antes de rodar o bot."
-  [System.Windows.Forms.MessageBox]::Show('Instalação concluída. Edite .env em "' + $appDir + '" e então execute ecac-bot. Veja ' + $logFile + ' para detalhes.', 'ECAC Bot', 'OK', 'Information') | Out-Null
+  # Python requirements: only install if python exists — do not attempt to install Python automatically
+  $py = Get-Command python -ErrorAction SilentlyContinue
+  if ($py) {
+    Log-Write "Python detected: $($py.Path) — installing Python requirements"
+    try { Install-PythonReqs $appDir 2>&1 | ForEach-Object { Log-Write $_ } } catch { Log-Write "pip install failed: $_" }
+  } else { Log-Write "Python not detected — skipping Python requirements installation." }
+
+  Write-Log "Pós-instalação concluída (verifique $logFile para detalhes)."
+  [System.Windows.Forms.MessageBox]::Show('Instalação concluída. Edite .env em "' + $appDir + '" e então execute ecac-bot. Se dependências faltarem, rode manualmente `npm install` em ' + $appDir + '.', 'ECAC Bot', 'OK', 'Information') | Out-Null
 } catch {
   Write-Log "Erro durante instalação: $_"
-  throw
+  # Do not rethrow — ensure installer reports success even if post-install had issues
+  Write-Log "Continuando sem interromper o instalador principal."
 }

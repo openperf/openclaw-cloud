@@ -53,11 +53,12 @@ function Run-NpmInstallAndPlaywright($appDir) {
   try {
     if (Test-Path package.json) {
       Write-Log "npm install..."
-      Start-Process -FilePath npm -ArgumentList "install" -NoNewWindow -Wait
+      # Use call operator so process runs in the current session and respects the current directory
+      & npm install
     }
 
     Write-Log "Instalando browsers Playwright (pode demorar)..."
-    Start-Process -FilePath npx -ArgumentList "playwright install --with-deps" -NoNewWindow -Wait
+    & npx playwright install --with-deps
   } finally {
     Pop-Location
   }

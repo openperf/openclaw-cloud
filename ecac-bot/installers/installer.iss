@@ -13,7 +13,7 @@ Source: "{#SourcePath}\..\ecac-bot\*"; DestDir: "{app}"; Flags: recursesubdirs c
 
 [Run]
 ; Executa o script PowerShell de pós-instalação como administrador para baixar dependências
-Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File \"{app}\win_installer_helper.ps1\""; WorkingDir: "{app}"; Flags: runascurrentuser
+Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\win_installer_helper.ps1"""; WorkingDir: "{app}"; Flags: runascurrentuser
 
 [Code]
 function SourcePath(Param: string): string;

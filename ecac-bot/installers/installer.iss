@@ -6,7 +6,7 @@ DisableProgramGroupPage=yes
 OutputBaseFilename=ecac-bot-installer-setup
 Compression=lzma
 SolidCompression=yes
-SourceDir=..
+SourceDir=..\..
 
 [Files]
 ; Copia todo o diretório ecac-bot para o diretório de instalação

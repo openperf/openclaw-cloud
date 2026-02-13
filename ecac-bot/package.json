@@ -1,0 +1,26 @@
+{
+  "name": "ecac-bot",
+  "version": "0.1.0",
+  "description": "Bot básico para automatizar alteração de perfil no e-CAC (placeholder).",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "start:worker": "node src/worker.js",
+    "check:env": "node scripts/checkEnv.js",
+    "install:all": "node installer.js",
+    "build:installer": "npx pkg installer.js --targets node16-win-x64 --output ecac-installer.exe",
+    "install-playwright": "npx playwright install --with-deps",
+    "postinstall": "npx playwright install --with-deps"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "playwright": "^1.44.0",
+    "node-fetch": "^2.6.7"
+  }
+  ,
+  "devDependencies": {
+    "pkg": "^5.8.0"
+  }
+}

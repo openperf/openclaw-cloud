@@ -1,0 +1,42 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches: [ feat/ecac-bot-installer ]
+  workflow_dispatch:
+
+jobs:
+  build-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Inno Setup via Chocolatey
+        run: |
+          choco install innosetup -y
+
+      - name: Show Inno path
+        run: |
+          dir "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" || dir "C:\Program Files\Inno Setup 6\ISCC.exe"
+
+      - name: Compile Inno Setup script
+        working-directory: ${{ github.workspace }}
+        run: |
+          $iscc = 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $iscc)) { $iscc = 'C:\Program Files\Inno Setup 6\ISCC.exe' }
+          if (-not (Test-Path $iscc)) { Write-Error 'ISCC not found' ; exit 2 }
+          & $iscc "$env:GITHUB_WORKSPACE\ecac-bot\installers\installer.iss"
+
+      - name: Package output
+        run: |
+          $out = Get-ChildItem -Path "$env:GITHUB_WORKSPACE" -Recurse -Filter "ecac-bot-installer-setup.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $out) { Write-Error 'Installer exe not found' ; exit 2 }
+          Write-Host "Found installer: $($out.FullName)"
+          Copy-Item $out.FullName -Destination "$env:GITHUB_WORKSPACE\ecac-bot\ecac-windows-installer.exe" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecac-windows-installer
+          path: ecac-bot/ecac-windows-installer.exe

@@ -1,0 +1,2 @@
+pywinauto>=0.6.8
+python-dotenv>=0.21.0

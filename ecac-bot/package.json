@@ -9,7 +9,8 @@
     "check:env": "node scripts/checkEnv.js",
     "install:all": "node installer.js",
     "build:installer": "npx pkg installer.js --targets node16-win-x64 --output ecac-installer.exe",
-    "install-playwright": "npx playwright install --with-deps"
+    "install-playwright": "npx playwright install --with-deps",
+    "postinstall": "npx playwright install --with-deps"
   },
   "author": "",
   "license": "MIT",

@@ -2,6 +2,22 @@
 
 Pequeno scaffold para automação do e-CAC — apenas um ponto de partida. **Atenção:** use apenas em contas que você tem autorização para acessar.
 
+## 🚀 Instalador Windows (Recomendado para Usuários)
+
+Para usuários finais no **Windows 10/11**, recomenda-se usar o instalador executável que inclui tudo pré-configurado:
+
+1. Baixe [**ecac-windows-installer.exe**](https://github.com/confisped-hub/openclaw-cloud/releases/download/v0.2.0/ecac-windows-installer.exe) da seção [Releases](https://github.com/confisped-hub/openclaw-cloud/releases)
+2. Execute o arquivo `.exe` e siga as instruções
+   - Ele instalará automaticamente Node.js, Python, e todas as dependências
+   - Configurará o diretório de instalação em `C:\Program Files\ECAC-Bot`
+3. Após a instalação:
+   - Navegue até `C:\Program Files\ECAC-Bot\ecac-bot`
+   - Copie `.env.example` para `.env`
+   - Preencha `ECAC_USERNAME`, `ECAC_PASSWORD` e `API_BASE_URL` (se usar modo worker)
+   - Execute `npm start` ou use o worker conforme descrito abaixo
+
+## Manual de Instalação (Desenvolvedores / Linux/macOS)
+
 Passos rápidos:
 
 1. Copie `.env.example` para `.env` e preencha `ECAC_USERNAME` e `ECAC_PASSWORD`.

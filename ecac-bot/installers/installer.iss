@@ -1,7 +1,7 @@
 [Setup]
 AppName=ECAC Bot Installer
 AppVersion=0.1.0
-DefaultDirName={pf}\ECAC-Bot
+DefaultDirName={userappdata}\ECAC-Bot
 DisableProgramGroupPage=yes
 OutputBaseFilename=ecac-bot-installer-setup
 Compression=lzma

@@ -53,12 +53,33 @@ function Run-NpmInstallAndPlaywright($appDir) {
   try {
     if (Test-Path package.json) {
       Write-Log "npm install..."
-      # Use call operator so process runs in the current session and respects the current directory
-      & npm install
+      # Try to find npm.cmd in ProgramFiles (Node installer may not update PATH for this process)
+      $npmCmd = Join-Path $env:ProgramFiles 'nodejs\npm.cmd'
+      if (-not (Test-Path $npmCmd) -and $env:ProgramFiles(x86)) {
+        $npmCmd = Join-Path $env:ProgramFiles(x86) 'nodejs\npm.cmd'
+      }
+      if (Test-Path $npmCmd) {
+        Write-Log "Running $npmCmd install"
+        & "$npmCmd" install
+      } else {
+        Write-Log "npm.cmd not found under ProgramFiles, falling back to 'npm' (requires PATH to include Node)"
+        & npm install
+      }
     }
 
     Write-Log "Instalando browsers Playwright (pode demorar)..."
-    & npx playwright install --with-deps
+    # Similar lookup for npx
+    $npxCmd = Join-Path $env:ProgramFiles 'nodejs\npx.cmd'
+    if (-not (Test-Path $npxCmd) -and $env:ProgramFiles(x86)) {
+      $npxCmd = Join-Path $env:ProgramFiles(x86) 'nodejs\npx.cmd'
+    }
+    if (Test-Path $npxCmd) {
+      Write-Log "Running $npxCmd playwright install --with-deps"
+      & "$npxCmd" playwright install --with-deps
+    } else {
+      Write-Log "npx.cmd not found under ProgramFiles, falling back to 'npx'"
+      & npx playwright install --with-deps
+    }
   } finally {
     Pop-Location
   }
@@ -78,11 +99,22 @@ try {
   Ensure-Python
 
   $appDir = $scriptDir
-  Run-NpmInstallAndPlaywright $appDir
-  Install-PythonReqs $appDir
+
+  # Log file for post-install actions
+  $logFile = Join-Path $appDir 'install-postlog.txt'
+  Write-Log "Post-install log: $logFile"
+
+  function Log-Write($m) { "$((Get-Date).ToString('s')) - $m" | Out-File -FilePath $logFile -Append -Encoding utf8 }
+
+  Log-Write "Starting npm/playwright install in $appDir"
+  Run-NpmInstallAndPlaywright $appDir 2>&1 | ForEach-Object { Log-Write $_ }
+  Log-Write "Finished npm/playwright install"
+
+  Log-Write "Installing Python requirements (if any)"
+  Install-PythonReqs $appDir 2>&1 | ForEach-Object { Log-Write $_ }
 
   Write-Log "Instalação concluída. Edite .env em $appDir antes de rodar o bot."
-  [System.Windows.Forms.MessageBox]::Show('Instalação concluída. Edite .env em "' + $appDir + '" e então execute ecac-bot.', 'ECAC Bot', 'OK', 'Information') | Out-Null
+  [System.Windows.Forms.MessageBox]::Show('Instalação concluída. Edite .env em "' + $appDir + '" e então execute ecac-bot. Veja ' + $logFile + ' para detalhes.', 'ECAC Bot', 'OK', 'Information') | Out-Null
 } catch {
   Write-Log "Erro durante instalação: $_"
   throw

@@ -4,6 +4,12 @@ const { chromium } = require('playwright');
 
 const ECAC_URL = 'https://cav.receita.fazenda.gov.br/autenticacao/login';
 
+// ===== CONFIGURAÇÕES =====
+const HEADLESS = String(process.env.HEADLESS_MODE || process.env.HEADLESS || 'false') === 'true';
+const SLOWMO = parseInt(process.env.SLOWMO_MS || '0', 10);
+const TIMEOUT = parseInt(process.env.ECAC_TIMEOUT || '120', 10) * 1000; // converter para ms
+const DETACH = String(process.env.DETACH_BROWSER || 'false') === 'true';
+
 function waitForEnter(prompt) {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   return new Promise((resolve) => rl.question(prompt, () => { rl.close(); resolve(); }));
@@ -13,7 +19,9 @@ async function run(consulta) {
   const username = process.env.ECAC_USERNAME;
   const password = process.env.ECAC_PASSWORD;
   const desiredProfile = process.env.ECAC_PROFILE || 'Procurador';
-  const headless = String(process.env.HEADLESS || 'false') === 'true';
+  const headless = HEADLESS;
+  const slowMo = SLOWMO;
+  const timeout = TIMEOUT;
 
   if (!consulta && (!username || !password)) {
     throw new Error('Defina ECAC_USERNAME e ECAC_PASSWORD no .env ou variáveis de ambiente, ou passe uma consulta com credenciais.');
@@ -29,13 +37,16 @@ async function run(consulta) {
   const userDataDir = process.env.BROWSER_USER_DATA_DIR || null;
   if (userDataDir) {
     console.log('[BOT] Iniciando contexto persistente em', userDataDir);
-    context = await chromium.launchPersistentContext(userDataDir, { headless, args: ['--start-maximized'], viewport: null });
+    context = await chromium.launchPersistentContext(userDataDir, { headless, args: ['--start-maximized'], viewport: null, slowMo });
     page = context.pages().length ? context.pages()[0] : await context.newPage();
   } else {
-    browser = await chromium.launch({ headless, args: ['--start-maximized'] });
+    browser = await chromium.launch({ headless, args: ['--start-maximized'], slowMo });
     context = await browser.newContext({ viewport: null });
     page = await context.newPage();
   }
+
+  // Configurar timeout padrão das páginas
+  page.setDefaultTimeout(timeout);
 
   console.log('Acessando e-CAC...');
   await page.goto(ECAC_URL, { waitUntil: 'networkidle' });
@@ -159,6 +170,10 @@ async function run(consulta) {
     }
 
   } finally {
+    if (DETACH) {
+      console.log('DETACH_BROWSER ativado — mantendo navegador aberto para depuração.');
+      return;
+    }
     console.log('Finalizando: salvando artefatos e fechando navegador em 3s...');
     await new Promise((r) => setTimeout(r, 3000));
     try {

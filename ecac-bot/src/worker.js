@@ -7,6 +7,7 @@ require('dotenv').config();
 const APIClient = require('./apiClient');
 const { run } = require('./bot');
 
+// ===== CONFIGURAÇÕES DA API =====
 const API_BASE_URL = process.env.API_BASE_URL || '';
 const BOT_TOKEN = process.env.BOT_TOKEN || '';
 
@@ -14,6 +15,19 @@ if (!API_BASE_URL || !BOT_TOKEN) {
   console.error('Configure API_BASE_URL e BOT_TOKEN no .env');
   process.exit(1);
 }
+
+// ===== CONFIGURAÇÕES DO WORKER =====
+const POLLING_INTERVAL = parseInt(process.env.POLLING_INTERVAL || '60', 10) * 1000; // converter para ms
+const MAX_WORKERS = parseInt(process.env.MAX_WORKERS || '2', 10);
+const ECAC_TIMEOUT = parseInt(process.env.ECAC_TIMEOUT || '120', 10) * 1000; // converter para ms
+const LOG_LEVEL = process.env.LOG_LEVEL || 'INFO';
+const LOG_FILE = process.env.LOG_FILE || './logs/bot.log';
+const SCREENSHOTS_DIR = process.env.SCREENSHOTS_DIR || './screenshots';
+
+// Criar diretórios se não existirem
+const logDir = path.dirname(LOG_FILE);
+if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+if (!fs.existsSync(SCREENSHOTS_DIR)) fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
 
 const api = new APIClient(API_BASE_URL, BOT_TOKEN);
 
@@ -170,8 +184,12 @@ async function loop() {
 
 (async () => {
   try {
-    await loop();
-    console.log('[WORKER] done');
+    while (true) {
+      await loop();
+      const intervalSec = POLLING_INTERVAL / 1000;
+      console.log(`[WORKER] Aguardando ${intervalSec}s antes da próxima verificação...`);
+      await new Promise(resolve => setTimeout(resolve, POLLING_INTERVAL));
+    }
   } catch (e) {
     console.error('[WORKER] fatal', e);
     process.exit(1);
